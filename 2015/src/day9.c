@@ -10,9 +10,6 @@
 #define OPENFILE fopen("data/day9.txt", "r")
 #define TRAVELS 9
 
-// int min = 999;
-// int max = 0;
-
 struct Cities *init(char ida, char idb, char *city_a, char *city_b, u32 dist);
 struct Cities *append(struct Cities *c, char ida, char idb, char *city_a,
                       char *city_b, u32 dist);
