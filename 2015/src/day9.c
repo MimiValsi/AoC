@@ -10,8 +10,8 @@
 #define OPENFILE fopen("data/day9.txt", "r")
 #define TRAVELS 9
 
-int min = 999;
-int max = 0;
+// int min = 999;
+// int max = 0;
 
 struct Cities *init(char ida, char idb, char *city_a, char *city_b, u32 dist);
 struct Cities *append(struct Cities *c, char ida, char idb, char *city_a,
@@ -113,6 +113,8 @@ u32 find_dist(struct Cities *c, char *visited) {
 
 // finding min is for part 1 and max for part 2
 void permute(struct Cities *c, char *a, int l, int r) {
+        static u32 min = 999;
+        static u32 max = 0;
         if (l == r) {
                 printf("%s\n", a);
                 u32 sum = find_dist(c, a);
