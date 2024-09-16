@@ -15,15 +15,18 @@ EXE = launch
 OBJS = $(ODIR)/misc.o
 OSRC = $(DAY).o
 
-start: objs
+start: $(ODIR)
 build: $(DAY)
+	@if [ -a $(OSRC) ]; then \
+		rm $(OSRC); \
+	fi
 	@./launch
 
-objs:
+$(ODIR):
 	mkdir -p objs/
 
 $(DAY): $(OBJS) $(OSRC)
-	@mkdir -p objs/
+
 	$(CC) $(CFLAGS) -o $(EXE) $^
 
 $(OSRC):
