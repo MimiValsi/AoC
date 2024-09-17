@@ -23,17 +23,17 @@ void part1(char *puzzle) {
         u32 len = strlen(res);
         // printf("res: %c\n", res[0]);
         // int track = 0;
-        for (int i = 1; i < len; i++) {
-                for (int j = len - 1; res[j] <= 'z'; res[j]++) {
-                        if (res[j] == 'z') {
-                                res[j] = 'a';
-                                res[j - i]++;
-                                break;
-                        }
-                        printf("res: %s\n", res);
-                }
-                printf("> res: %s\n", res);
-        }
+        // for (int i = 1;;) {
+        //         for (int j = len - 1; res[j] <= 'z'; res[j]++) {
+        //                 if (res[j] == 'z') {
+        //                         res[j] = 'a';
+        //                         res[j - i]++;
+        //                         break;
+        //                 }
+        //                 printf("res: %s\n", res);
+        //         }
+        //         printf("> res: %s\n", res);
+        // }
 }
 
 void part2(char *puzzle) {}
