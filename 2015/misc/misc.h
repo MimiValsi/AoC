@@ -1,3 +1,4 @@
+#pragma 1
 #include <ctype.h>
 #include <limits.h>
 #include <stdbool.h>
@@ -18,7 +19,7 @@ typedef uint64_t u64;
 // Haven't figure it out how to create a pointer of pointers
 // like char str[x][y]
 typedef struct {
-  char s[10][20];
+        char s[10][20];
 } String;
 
 #define NL() printf("\n")
