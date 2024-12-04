@@ -10,14 +10,14 @@ bool no_i_o_l(char *puzzle, u32 len);
 bool overlap(char *puzzle, u32 len);
 
 int main() {
-        char puzzle[] = "hepxcrrq"; // hepxxyzz
+        char puzzle[] = "hepxcrrq";
 
         part1(puzzle);
         part2(puzzle);
 }
 
 void part1(char *puzzle) {
-        printf("start: %s\n", puzzle);
+        printf("P1 start: %s\n", puzzle);
         u32 len = strlen(puzzle);
 
         // Loop will break when all requirements are meet
@@ -44,7 +44,7 @@ void part1(char *puzzle) {
 
                 ++puzzle[i];
         }
-        printf("end: %s\n", puzzle);
+        printf("P1 end: %s\n", puzzle);
 }
 
 // check each char of the string. If puzzle[i] == 'z' then the previous char
@@ -112,7 +112,7 @@ bool overlap(char *puzzle, u32 len) {
 }
 
 void part2(char *puzzle) {
-        printf("start: %s\n", puzzle);
+        printf("P2 start: %s\n", puzzle);
         u32 len = strlen(puzzle);
 
         // Loop will break when all requirements are meet
@@ -144,5 +144,5 @@ void part2(char *puzzle) {
 
                 ++puzzle[i];
         }
-        printf("end: %s\n", puzzle);
+        printf("P2 end: %s\n", puzzle);
 }
