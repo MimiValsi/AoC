@@ -25,7 +25,7 @@ typedef struct {
 #define NL() printf("\n")
 #define ARRAY_LEN(x) (sizeof x / sizeof x[0])
 
-u64 get_file_length(FILE *file);
+u32 get_file_length(FILE *file);
 String line_split(char *line, char *delim);
 char *get_line(FILE *file);
 i32 *str_to_int_array(char *line, u32 len);

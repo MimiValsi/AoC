@@ -4,7 +4,7 @@
 /* Read the file, go to the end, return the length and go back to the beginning.
  * Return the length
  */
-u64 get_file_length(FILE *file) {
+u32 get_file_length(FILE *file) {
         fseek(file, 0, SEEK_END);
         u32 length = ftell(file);
         rewind(file);
@@ -34,7 +34,7 @@ char *get_line(FILE *file) {
                 perror("ERROR: Couldn't allocate memory.");
                 exit(-1);
         }
-        for (i32 i = 0;; i++) {
+        for (u32 i = 0;; i++) {
                 line[i] = fgetc(file);
                 if (line[i] == '\n') {
                         line[i] = '\0';
