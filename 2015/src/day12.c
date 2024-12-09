@@ -121,8 +121,6 @@ int foo(const char *str) {
                 if (str[i] == '{') {
                         bool found = strstr(tmp, "red") ? true : false;
                         if (found) {
-                                // total = 0;
-
                                 t = 0;
                                 zero_arr(tmp);
                         }
