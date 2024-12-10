@@ -1,10 +1,9 @@
-CC = clang -std=c99
+CC = clang
+STD = -std=c11
 
 CFLAGS = -Imisc -D_POSIX_C_SOURCE=200809L
-# CFLAGS = -Imisc
 
 DFLAGS = -Imisc -Wall -Wextra -Werror -Wpedantic -Wshadow -Wwrite-strings -D_POSIX_C_SOURCE=200809L
-# DFLAGS = -Imisc -Wall -Wextra -Wpedantic -Wshadow -Wwrite-strings
 
 IDIR = misc
 ODIR = objs
@@ -27,23 +26,23 @@ $(ODIR):
 
 $(DAY): $(OBJS) $(OSRC)
 
-	$(CC) $(CFLAGS) -o $(EXE) $^
+	$(CC) $(STD) $(CFLAGS) -o $(EXE) $^
 
 $(OSRC):
-	$(CC) $(CFLAGS) -c $(SRC)/$(DAY).c -o $@
+	$(CC) $(STD) $(CFLAGS) -c $(SRC)/$(DAY).c -o $@
 
 $(ODIR)/misc.o:
-	$(CC) $(CFLAGS) -c $(IDIR)/misc.c -o $@
+	$(CC) $(STD) $(CFLAGS) -c $(IDIR)/misc.c -o $@
 
 debug: $(OBJS) $(OSRC)
-	$(CC) $(DFLAGS) -o $(EXE) $^
+	$(CC) $(STD) $(DFLAGS) -o $(EXE) $^
 	./$(EXE)
 
 openssl: $(OBJS) $(OSRC)
-	$(CC) $(OPENSSL) $(CFLAGS) -o $(DAY) $^
+	$(CC) $(STD) $(OPENSSL) $(CFLAGS) -o $(DAY) $^
 
 openssl_debug: $(OBJS)
-	$(CC) $(OPENSSL) $(DFLAGS) -o $(DAY) $^
+	$(CC) $(STD) $(OPENSSL) $(DFLAGS) -o $(DAY) $^
 
 valgrind:
 	valgrind -s --max-stackframe=8388608 --show-leak-kinds=all --track-origins=yes --leak-check=full ./$(EXE)
