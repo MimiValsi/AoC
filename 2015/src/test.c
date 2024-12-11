@@ -1,6 +1,5 @@
 #include "misc.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 typedef struct Json json_t;
@@ -14,8 +13,8 @@ typedef struct Json {
 
 void check_curly_brackets(const char *str, u32 len, json_t *obj);
 
-json_t *ll_initialise(u32 index, const char *str);
-json_t *ll_append(json_t *obj, u32 index, const char *str);
+json_t *init(u32 index, const char *str);
+json_t *append(json_t *obj, u32 index, const char *str);
 void ll_free(json_t *obj);
 void ll_print(json_t *obj);
 
@@ -27,7 +26,7 @@ int main() {
         fgets(str, len, file);
 
         // create first object to null!
-        // ll_append() will make the rest
+        // append() will make the rest
         json_t *obj = NULL;
         check_curly_brackets(str, len, obj);
         ll_print(obj);
@@ -48,8 +47,9 @@ int main() {
 void ll_print(json_t *obj) {
         json_t *tmp = obj;
         printf("object:\n");
+        // printf("%d\n", tmp->index);
         while (tmp) {
-                printf("index: %d\nstr: %s\n", tmp->index, tmp->str);
+                // printf("index: %d\nstr: %s\n", tmp->index, tmp->str);
                 tmp = tmp->next;
         }
 }
@@ -79,17 +79,18 @@ void check_curly_brackets(const char *str, u32 len, json_t *obj) {
                 if (str[i + 1] == '{') {
                         // update obj!
                         printf("tmp: %s\n", tmp);
-                        obj = ll_append(obj, i, tmp);
+                        printf("i: %d\n", i);
+                        obj = append(obj, i, tmp);
                         // check_curly_brackets(&str[i], len, obj);
                         break;
                 }
         }
 }
 
-void ll_update(json_t *obj);
+void update(json_t *obj);
 
-json_t *ll_append(json_t *obj, u32 index, const char *str) {
-        json_t *new = ll_initialise(index, str);
+json_t *append(json_t *obj, u32 index, const char *str) {
+        json_t *new = init(index, str);
         if (!obj) {
                 return new;
         }
@@ -106,9 +107,10 @@ json_t *ll_append(json_t *obj, u32 index, const char *str) {
 
 // initialise new ll object with index and str
 // keep next and prev field to NULL
-json_t *ll_initialise(u32 index, const char *str) {
+json_t *init(u32 index, const char *str) {
         json_t *obj = malloc(sizeof(json_t));
         if (!obj) {
+                perror("couldn't allocate json_t\n");
                 return NULL;
         }
         obj->index = index;
