@@ -1,44 +1,45 @@
 CC = clang
 STD = -std=c11
+POSIX = -D_POSIX_C_SOURCE=200809L
 
-CFLAGS = -Imisc -D_POSIX_C_SOURCE=200809L
-
-DFLAGS = -Imisc -Wall -Wextra -Werror -Wpedantic -Wshadow -Wwrite-strings -D_POSIX_C_SOURCE=200809L
-
-IDIR = misc
-ODIR = objs
+INC_DIR = misc
+OBJ_DIR = objs
 SRC = src
 OPENSSL=-L/usr/local/lib/ -lssl -lcrypto
 EXE = launch
 
-OBJS = $(ODIR)/misc.o
-OSRC = $(DAY).o
+CFLAGS = -I$(INC_DIR) $(POSIX)
 
-start: $(ODIR)
+DFLAGS = -I$(INC_DIR) -Wall -Wextra -Werror -Weverything -Wshadow -Wwrite-strings $(POSIX)
+
+OBJS = $(OBJ_DIR)/misc.o
+OBJ_SRC = $(DAY).o
+
+start: $(OBJ_DIR)
 build: $(DAY)
-	@if [ -a $(OSRC) ]; then \
-		rm $(OSRC); \
+	@if [ -a $(OBJ_SRC) ]; then \
+		rm $(OBJ_SRC); \
 	fi
 	@./launch
 
-$(ODIR):
+$(OBJ_DIR):
 	mkdir -p objs/
 
-$(DAY): $(OBJS) $(OSRC)
+$(DAY): $(OBJS) $(OBJ_SRC)
 
 	$(CC) $(STD) $(CFLAGS) -o $(EXE) $^
 
-$(OSRC):
+$(OBJ_SRC):
 	$(CC) $(STD) $(CFLAGS) -c $(SRC)/$(DAY).c -o $@
 
-$(ODIR)/misc.o:
-	$(CC) $(STD) $(CFLAGS) -c $(IDIR)/misc.c -o $@
+$(OBJ_DIR)/misc.o:
+	$(CC) $(STD) $(CFLAGS) -c $(INC_DIR)/misc.c -o $@
 
-debug: $(OBJS) $(OSRC)
+debug: $(OBJS) $(OBJ_SRC)
 	$(CC) $(STD) $(DFLAGS) -o $(EXE) $^
 	./$(EXE)
 
-openssl: $(OBJS) $(OSRC)
+openssl: $(OBJS) $(OBJ_SRC)
 	$(CC) $(STD) $(OPENSSL) $(CFLAGS) -o $(DAY) $^
 
 openssl_debug: $(OBJS)
