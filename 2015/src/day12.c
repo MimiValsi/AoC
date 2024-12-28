@@ -4,15 +4,37 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct Json json_t;
+
+typedef struct Json {
+	int32_t index;
+	int32_t position;
+	char *str;
+	json_t *next;
+	json_t *prev;
+	bool red;
+} json_t;
+
 int part1(FILE *file);
 int part2(FILE *file);
 
 char *get_all_file(FILE *file, u32 len);
 int sum_numbers(const char *str, u32 i);
-int pos_nb_sum(const char *all, u32 *i);
-int neg_nb_sum(const char *all, u32 *i);
-void zero_arr(char *arr);
+void check_curly_brackets(const char *str, uint32_t len, json_t **json);
+json_t *init_json(const char *str, int32_t position, bool red, int32_t index);
+void append_json(json_t **head, uint32_t position, const char *str, bool red,
+		 int32_t index);
+void free_json(json_t **head);
+void print_json(json_t **head);
+int pos_nb_sum(const char *all, uint32_t *i);
+int neg_nb_sum(const char *all, uint32_t *i);
+int32_t calculate(json_t **head);
+int32_t calc(json_t *tmp);
+bool check_red_position(json_t **head, uint32_t position);
+void red_next(json_t *child);
+void red_prev(json_t *child);
 
+void check_red(json_t **head);
 int main(void)
 {
 	FILE *file = fopen("./data/day12.txt", "r");
@@ -48,34 +70,6 @@ int part1(FILE *file)
 	}
 	return total;
 }
-
-typedef struct Json json_t;
-
-typedef struct Json {
-	int32_t index;
-	int32_t position;
-	char *str;
-	json_t *next;
-	json_t *prev;
-	bool red;
-} json_t;
-
-void check_curly_brackets(const char *str, uint32_t len, json_t **json);
-
-json_t *init_json(const char *str, int32_t position, bool red, int32_t index);
-void append_json(json_t **head, uint32_t position, const char *str, bool red,
-		 int32_t index);
-void free_json(json_t **head);
-void print_json(json_t **head);
-int pos_nb_sum(const char *all, uint32_t *i);
-int neg_nb_sum(const char *all, uint32_t *i);
-int32_t calculate(json_t **head);
-int32_t calc(json_t *tmp);
-bool check_red_position(json_t **head, uint32_t position);
-void red_next(json_t *child);
-void red_prev(json_t *child);
-
-void check_red(json_t **head);
 
 int part2(FILE *file)
 {
