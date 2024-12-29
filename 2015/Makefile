@@ -41,9 +41,11 @@ debug: $(OBJS) $(OBJ_SRC)
 
 openssl: $(OBJS) $(OBJ_SRC)
 	$(CC) $(STD) $(OPENSSL) $(CFLAGS) -o $(DAY) $^
+	./day4
 
 openssl_debug: $(OBJS)
 	$(CC) $(STD) $(OPENSSL) $(DFLAGS) -o $(DAY) $^
+	./day4
 
 valgrind:
 	valgrind -s --max-stackframe=8388608 --show-leak-kinds=all --track-origins=yes --leak-check=full ./$(EXE)
