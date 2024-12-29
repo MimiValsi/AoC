@@ -7,30 +7,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef int8_t i8;
-typedef int32_t i32;
-typedef int64_t i64;
-typedef int16_t i16;
-typedef uint8_t u8;
-typedef uint16_t u16;
-typedef uint32_t u32;
-typedef uint64_t u64;
-
 // Haven't figure it out how to create a pointer of pointers
 // like char str[x][y]
 typedef struct {
-        char s[10][20];
+	char s[10][20];
 } String;
 
 #define NL() printf("\n")
 #define ARRAY_LEN(x) (sizeof x / sizeof x[0])
 
-u32 get_file_length(FILE *file);
+uint32_t get_file_length(FILE *file);
 String line_split(char *line, char *delim);
 char *get_line(FILE *file);
-i32 *str_to_int_array(char *line, u32 len);
-u32 arr_length(i32 *arr);
-i32 max_elem(i32 *arr, u32 size);
-i32 min_elem(i32 *arr, u32 size);
-void *alloc_2D_array(u32 rows, u32 cols);
-void free_2D_array(i64 **arr, u32 rows);
+int32_t *str_to_int_array(char *line, uint32_t len);
+uint32_t arr_length(int32_t *arr);
+int32_t max_elem(int32_t *arr, uint32_t size);
+int32_t min_elem(int32_t *arr, uint32_t size);
+void *alloc_2D_array(uint32_t rows, uint32_t cols);
+void free_2D_array(int64_t **arr, uint32_t rows);

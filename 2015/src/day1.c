@@ -1,29 +1,26 @@
-#include <stdio.h>
 #include "misc.h"
 
-int
-main(void)
+int main(void)
 {
-        FILE *file = fopen("data/day1.txt", "r");
+	FILE *file = fopen("data/day1.txt", "r");
 
-        i32 floor = 0, position = 0;
-        u64 end = get_file_length(file);
+	int32_t floor = 0, position = 0;
+	uint64_t end = get_file_length(file);
 
-        for (u64 i = 0; i < end; i++) {
-                position++;
-                if (fgetc(file) == '(') {
-                        floor++;
-                } else {
-                        floor--;
-                }
+	for (uint64_t i = 0; i < end; i++) {
+		position++;
+		if (fgetc(file) == '(') {
+			floor++;
+		} else {
+			floor--;
+		}
 
-                if (floor == -1) {
-                        printf("%d\n", position);
-                }
+		if (floor == -1) {
+			printf("%d\n", position);
+		}
+	}
 
-        }
-
-        printf("floor: %d\n", floor);
-        fclose(file);
-        return 0;
+	printf("floor: %d\n", floor);
+	fclose(file);
+	return 0;
 }

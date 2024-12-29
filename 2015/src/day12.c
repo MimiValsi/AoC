@@ -1,8 +1,4 @@
 #include "misc.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 typedef struct Json json_t;
 
@@ -18,8 +14,8 @@ typedef struct Json {
 int part1(FILE *file);
 int part2(FILE *file);
 
-char *get_all_file(FILE *file, u32 len);
-int sum_numbers(const char *str, u32 i);
+char *get_all_file(FILE *file, uint32_t len);
+int sum_numbers(const char *str, uint32_t i);
 void check_curly_brackets(const char *str, uint32_t len, json_t **json);
 json_t *init_json(const char *str, int32_t position, bool red, int32_t index);
 void append_json(json_t **head, uint32_t position, const char *str, bool red,
@@ -51,7 +47,7 @@ int main(void)
 
 int part1(FILE *file)
 {
-	u32 len = get_file_length(file);
+	uint32_t len = get_file_length(file);
 
 	char all[len];
 	for (int i = 0; i < len; i++) {
@@ -60,7 +56,7 @@ int part1(FILE *file)
 
 	char tmp;
 	int total = 0;
-	for (u32 i = 0; i < len; i++) {
+	for (uint32_t i = 0; i < len; i++) {
 		if (isdigit(all[i])) {
 			total += pos_nb_sum(all, &i);
 		}
