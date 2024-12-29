@@ -1,4 +1,6 @@
 #include "misc.h"
+#include <stdint.h>
+#include <stdio.h>
 
 typedef struct {
 	uint32_t l; // length
@@ -13,6 +15,7 @@ uint32_t extra_slack(Dimension dimension);
 uint32_t total_paper(uint32_t surface, uint32_t slack);
 int32_t *insertion_sort(Dimension dimension);
 uint32_t total_ribbon(int32_t *arr);
+int32_t *separate_by_x(char *line);
 
 int main(void)
 {
@@ -21,17 +24,17 @@ int main(void)
 	FILE *file = fopen("data/day2.txt", "r");
 	char *line;
 	int32_t *nb = NULL;
-	uint32_t paper = 0;
-	uint32_t ribbon = 0;
+	uint32_t paper = 0, ribbon = 0;
+
 	for (int32_t i = 0; i < 1000; i++) {
 		line = get_line(file);
 		size_t len = strlen(line);
-		nb = str_to_int_array(line, len);
+		nb = separate_by_x(line);
 		dimension = box(nb);
 		uint32_t surface = box_surface(dimension);
 		uint32_t slack = extra_slack(dimension);
-		paper += total_paper(surface, slack);
 		int32_t *arr = insertion_sort(dimension);
+		paper += total_paper(surface, slack);
 		ribbon += total_ribbon(arr);
 
 		free(line);
@@ -39,11 +42,26 @@ int main(void)
 		free(arr);
 	}
 
-	printf("%d\n", paper);
-	printf("%d\n", ribbon);
+	printf("paper: %d\n", paper);
+	printf("ribbon: %d\n", ribbon);
 
 	fclose(file);
 	return 0;
+}
+
+int32_t *separate_by_x(char *line)
+{
+	char *delim = "x";
+	int32_t *nbs = calloc(4, sizeof(int32_t));
+	char *token = strtok(line, delim);
+	int i = 0;
+	while (token) {
+		nbs[i] = atoi(token);
+		token = strtok(NULL, delim);
+		i++;
+	}
+
+	return nbs;
 }
 
 int32_t *insertion_sort(Dimension dimension)
@@ -104,10 +122,9 @@ void initialize(Dimension *dimension)
 
 Dimension box(int32_t *arr)
 {
-	Dimension dimension;
-	dimension.l = arr[0];
-	dimension.w = arr[1];
-	dimension.h = arr[2];
-
-	return dimension;
+	// Dimension dimension;
+	// dimension.l = arr[0];
+	// dimension.w = arr[1];
+	// dimension.h = arr[2];
+	return (Dimension){ .l = arr[0], .w = arr[1], .h = arr[2] };
 }
