@@ -8,15 +8,17 @@ SRC = src
 OPENSSL=-L/usr/local/lib/ -lssl -lcrypto
 EXE = launch
 
+# -Og -g
+# -fsanitize=undefined,address,bounds
 CFLAGS = -I$(INC_DIR) $(POSIX)
 
 DFLAGS = -I$(INC_DIR) -Wall -Wextra -Werror -Weverything -Wshadow -Wwrite-strings $(POSIX)
 
 OBJS = $(OBJ_DIR)/misc.o
-OBJ_SRC = $(DAY).o
+OBJ_SRC = day$(DAY).o
 
 start: $(OBJ_DIR)
-build: $(DAY)
+build: day$(DAY)
 	@if [ -a $(OBJ_SRC) ]; then \
 		rm $(OBJ_SRC); \
 	fi
@@ -25,26 +27,29 @@ build: $(DAY)
 $(OBJ_DIR):
 	mkdir -p objs/
 
-$(DAY): $(OBJS) $(OBJ_SRC)
+day$(DAY): $(OBJS) $(OBJ_SRC)
 
 	$(CC) $(STD) $(CFLAGS) -o $(EXE) $^
 
 $(OBJ_SRC):
-	$(CC) $(STD) $(CFLAGS) -c $(SRC)/$(DAY).c -o $@
+	$(CC) $(STD) $(CFLAGS) -c $(SRC)/day$(DAY).c -o $@
 
 $(OBJ_DIR)/misc.o:
 	$(CC) $(STD) $(CFLAGS) -c $(INC_DIR)/misc.c -o $@
 
 debug: $(OBJS) $(OBJ_SRC)
 	$(CC) $(STD) $(DFLAGS) -o $(EXE) $^
+	@if [ -a $(OBJ_SRC) ]; then \
+		rm $(OBJ_SRC); \
+	fi
 	./$(EXE)
 
 openssl: $(OBJS) $(OBJ_SRC)
-	$(CC) $(STD) $(OPENSSL) $(CFLAGS) -o $(DAY) $^
+	$(CC) $(STD) $(OPENSSL) $(CFLAGS) -o day$(DAY) $^
 	./day4
 
 openssl_debug: $(OBJS)
-	$(CC) $(STD) $(OPENSSL) $(DFLAGS) -o $(DAY) $^
+	$(CC) $(STD) $(OPENSSL) $(DFLAGS) -o day$(DAY) $^
 	./day4
 
 valgrind:

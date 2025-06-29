@@ -26,7 +26,6 @@ int pos_nb_sum(const char *all, uint32_t *i);
 int neg_nb_sum(const char *all, uint32_t *i);
 int32_t calculate(json_t **head);
 int32_t calc(json_t *tmp);
-bool check_red_position(json_t **head, uint32_t position);
 void red_next(json_t *child);
 void red_prev(json_t *child);
 
@@ -69,8 +68,8 @@ int part1(FILE *file)
 
 int part2(FILE *file)
 {
-	// FILE *file = fopen("./data/day12.txt", "r");
 	uint32_t len = get_file_length(file);
+
 	// copy to array coz it's easier to control the loop flow
 	char str[len];
 	fgets(str, len, file);
@@ -80,7 +79,6 @@ int part2(FILE *file)
 	check_red(&json);
 	int32_t total = calculate(&json);
 
-	// print_json(&json);
 	free_json(&json);
 
 	return total;

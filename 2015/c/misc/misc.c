@@ -1,13 +1,14 @@
 #include "misc.h"
 
-#define SIZE 60
+#define SIZE 100
+
 /* Read the file, go to the end, return the length and go back to the beginning.
  * Return the length
  */
-uint32_t get_file_length(FILE *file)
+long get_file_length(FILE *file)
 {
 	fseek(file, 0, SEEK_END);
-	uint32_t length = ftell(file);
+	long length = ftell(file);
 	rewind(file);
 
 	return length;
@@ -15,18 +16,45 @@ uint32_t get_file_length(FILE *file)
 
 // Use strtok to split a string into words and add them to an array of strings.
 // In this case, a struct with arr[[x]][[y]]
-String line_split(char *line, char *delim)
+char **line_split(char *line, char *delim)
 {
 	uint32_t i = 0;
-	String str = { 0 };
+	uint32_t size = 20;
+
+	char **strs = malloc(size * sizeof(char *));
+
 	char *token = strtok(line, delim);
+
 	while (token) {
-		strcpy(str.s[i], token);
+		if (i >= size) {
+			size *= 2;
+			char **tmp = realloc(strs, size);
+			if (!tmp) {
+				free_strs(strs);
+				return NULL;
+			}
+			strs = tmp;
+		}
+		strs[i] = strdup(token);
 		token = strtok(NULL, delim);
 		i++;
 	}
 
-	return str;
+	return strs;
+}
+
+// use only to free array of strings used with line_split() func
+// which will end with NULL
+void free_strs(char **strs)
+{
+	for (int i = 0;; i++) {
+		if (strs[i] == NULL) {
+			break;
+		}
+		free(strs[i]);
+	}
+
+	free(strs);
 }
 
 /* Read the file, and return line without '\n' */
@@ -35,7 +63,7 @@ char *get_line(FILE *file)
 	char *line = malloc(SIZE + 1);
 	if (!line) {
 		perror("ERROR: Couldn't allocate memory.");
-		exit(-1);
+		exit(EX_MALLOC);
 	}
 	for (uint32_t i = 0;; i++) {
 		line[i] = fgetc(file);
@@ -83,4 +111,24 @@ int32_t min_elem(int32_t *arr, uint32_t size)
 	}
 
 	return min;
+}
+
+uint32_t nb_lines_file(char *filename, char delim)
+{
+	FILE *file = fopen(filename, "r");
+	if (!file) {
+		perror("file doesn't exist");
+		exit(EXIT_FAILURE);
+	}
+
+	uint32_t ret = 0;
+	char c;
+	for (c = fgetc(file); c != EOF; c = fgetc(file)) {
+		if (c == delim)
+			ret++;
+	}
+
+	fclose(file);
+
+	return ret;
 }

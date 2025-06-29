@@ -1,4 +1,5 @@
 #include "misc.h"
+#include <stdio.h>
 
 void part1(char *puzzle);
 void part2(char *puzzle);
@@ -29,6 +30,11 @@ void part1(char *puzzle)
 		bool straight_3_letters = false;
 		bool no_iol = false;
 		bool overlaps = false;
+		if (puzzle[i] == 'z') {
+			// if last letter is z increment previous letter to next
+			// one
+			check_string(puzzle, len, i);
+		}
 		if (straight_three_letters(puzzle, len)) {
 			straight_3_letters = true;
 		}
